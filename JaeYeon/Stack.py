@@ -35,13 +35,13 @@ class _Stack:
         self.stack.append(item)
 
     def pop(self):
-        retrun self.item.pop()
+        return self.item.pop()
         # item = self.stack[-1]
         # del self.stack[-1]
         # return item
 
     def peek(self):
-        retrun self.stack[-1]
+        return self.stack[-1]
         # retrun self.stack[len(self.stack)-1]
 
     def isEmpty(self):
@@ -65,7 +65,7 @@ class Reversed_stack:
         # return self.stack.pop(0)
 
     def peek(self):
-        retrun self.stack[0]
+        return self.stack[0]
 
     def isEmpty(self):
         return self.stack == []
