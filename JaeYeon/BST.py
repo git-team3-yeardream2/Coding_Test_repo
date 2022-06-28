@@ -43,27 +43,27 @@ class BST:
     def delete(self, data):
         searched = False
         self.pointer = self.root
-        self.parent = None
+        self.parent = None  # 저는 부모 노드 None으로 시작
         while self.pointer:
             if self.pointer.data == data:
                 searched = True
-                break
+                break  # 반복문 while문 break
             elif self.pointer.data < data:
-                self.parent = self.pointer
+                self.parent = self.pointer  # pointer을 내려가는 과정, 부모 먼저 내려가야함.
                 self.pointer = self.pointer.right
-
             else:
-                self.parent = self.pointer
+                self.parent = self.pointer  # pointer을 내려가는 과정, 부모 먼저 내려가야함.
                 self.pointer = self.pointer.left
 
         if searched == False:
-            return False  # why return???
+            return False  # why return??? 나중에 쓰려 그리고 함수 여기까지 멈추는게 효율적이다.
 
         if self.pointer.left == None and self.pointer.right == None:  # 자식이 없는 경우, 즉 삭제할 Node가 leaf일 때
             if data < self.parent.data:  # 부모의 데이터 보다 작은 경우 즉 삭제할 노드가 부모의 왼쪽 자식인 경우?
-                self.parent.left = None
+                self.parent.left = None  # None으로 만들어 주면 끝
             else:
                 self.parent.right = None
+            del self.pointer  # 객체 메모리 상에서 삭제
 
         elif self.pointer.left != None and self.pointer.right == None:  # 왼쪽 자식만 있는 경우
             if data < self.parent.data:  # 부모의 데이터 보다 작은 경우
@@ -86,7 +86,7 @@ class BST:
                     self.changenode.parent.left = self.changenode.right  # 이 노드의 부모의 왼쪽 자식에 이 노드의 자식을 추가한다. (case A와 유사)
                 else: # 가장 작은 값이 자식이 없는 경우
                     self.changenode.parent.left = None  # 이 노드의 부모의 왼쪽 자식이 없어지고 끝
-                self.parent.left = self.changenode
+                self.parent.left = self.changenode  # 위로 옮기는 과정 3줄
                 self.changenode.right = self.pointer.right
                 self.changenode.left = self.pointer.left
 
@@ -100,7 +100,7 @@ class BST:
                     self.changenode.parent.right = self.changenode.left  # 이 노드의 부모의 오른쪽 자식에 이 노드의 자식을 추가한다. (case B와 유사)
                 else: # 가장 작은 값이 자식이 없는 경우
                     self.changenode.parent.right = None  # 이 노드의 부모의 오른쪽 자식이 없어지고 끝
-                self.parent.right = self.changenode
+                self.parent.right = self.changenode  # 위로 옮기는 과정 3줄
                 self.changenode.right = self.pointer.right
                 self.changenode.left = self.pointer.left
         return True
@@ -120,13 +120,14 @@ for num in bst_nums:  # 검색 기능 확인
         print('search failed', num)
 
 del_num = set()  # 임의의 삭제할 숫자 10개 선택
-for x in numpy.random.randint(100, size=10):
-    del_num.add(x)
+
+for idx in numpy.random.randint(len(bst_nums), size=10):  # 총 인덱스 len(bst_nums), 아까 무작위 추출한 집합의 길이에서 10개 뽑는다.
+    del_num.add(list(bst_nums)[idx])
 print(del_num)
 
 for num in del_num:
     if test.delete(num) is False:
-        print('delete failed', num)
+        print('delete failed', num)  # 랜덤으로 트리에서 10개 뽑아서 삭제
 
-print(del_num.intersection(bst_nums))  # 공집합 인거 확인.
+print(del_num.intersection(bst_nums))  # 전부 삭제 된거 확인.
 print(test.search(500))  # 루트 노드인 500 존재함 확인.
